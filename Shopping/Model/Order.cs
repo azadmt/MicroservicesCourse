@@ -6,6 +6,8 @@ namespace Shopping.Model
     public class Order : EntityBase
     {
         public long CustomerId { get; set; }
+        public long CourierId { get; set; }
+
         public virtual Customer Customer { get; set; }
         public DateTime CreateDate { get; set; }
         public OrderStatus Status { get; set; }
@@ -17,5 +19,11 @@ namespace Shopping.Model
             item.Order = this;
             OrderItems.Add(item);
         }
+    }
+
+    public class Courier : EntityBase
+    {
+        public bool IsAvailable { get; set; }
+       
     }
 }

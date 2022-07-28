@@ -9,6 +9,7 @@ namespace Shopping.Model
     {
         public string Name { get; set; }
         public decimal Price { get; set; }
+        public long Quantity { get; set; }
         public long ProductGroupId { get; set; }
         public virtual ProductGroup ProductGroup { get; set; }
     }
