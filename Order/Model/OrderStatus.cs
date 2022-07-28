@@ -1,4 +1,4 @@
-﻿namespace Order.Model
+﻿namespace OrderManagement.Model
 {
     public enum OrderStatus
     {

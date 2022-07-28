@@ -1,6 +1,6 @@
-﻿namespace OrderManagement.Model
+﻿namespace OrderManagement.Contract
 {
-    public class OrderItem : EntityBase
+    public class OrderItemDto
     {
         public long OrderId { get; set; }
 
