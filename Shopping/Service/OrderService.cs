@@ -33,6 +33,7 @@ namespace Shopping.Service
                 }
                 stock.Quantity -= item.Unit;
                 order.CourierId = courier.Id;
+                order.Address = orderDto.Address;
                 order.AddOrderItem(orderItem);
             }
 
