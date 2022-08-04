@@ -20,7 +20,6 @@ namespace Shopping.Service
             var productsId = orderDto.OrderItems.Select(p => p.ProductId).ToList();
             var products = shoppingDbContext.Products.Where(p => productsId.Contains(p.Id)).ToList();
             var stocks = shoppingDbContext.Stocks.Where(p => productsId.Contains(p.ProductId)).ToList();
-            var courier= shoppingDbContext.Couriers.Where(p => p.IsAvailable).FirstOrDefault();
             var order = new Order { CreateDate = DateTime.Now, CustomerId = orderDto.CustomerId };
             foreach (var item in orderDto.OrderItems)
             {
@@ -31,15 +30,12 @@ namespace Shopping.Service
                 {
                     throw new Exception("Quantity is not enough!!!");
                 }
-                stock.Quantity -= item.Unit;
-                order.CourierId = courier.Id;
+                stock.Quantity -= item.Unit;           
                 order.AddOrderItem(orderItem);
             }
 
                     shoppingDbContext.Orders.Add(order);
-                   // shoppingDbContext.Stocks.Update(stock);
-                    shoppingDbContext.SaveChanges();
-          
+                    shoppingDbContext.SaveChanges();          
                
             }
         }

@@ -6,7 +6,11 @@
         AwaitingValidation,
         StockConfirmed,
         Paid,
+        Assigned,
+        PickedUp,
         Delivered,
         Cancelled
     }
+
+
 }

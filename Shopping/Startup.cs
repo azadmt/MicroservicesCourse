@@ -34,6 +34,7 @@ namespace Shopping
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Shopping", Version = "v1" });
             });
             services.AddScoped<IOrderService, OrderService>();
+            services.AddScoped<IDeliveryService, DeliveryService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

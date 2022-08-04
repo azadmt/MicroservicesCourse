@@ -14,6 +14,7 @@ namespace Shopping
 
         }
         public DbSet<Courier> Couriers { get; set; }
+        public DbSet<Delivery> Deliveries { get; set; }
         public DbSet<Order> Orders { get; set; }
         public DbSet<OrderItem> OrderItems { get; set; }
         public DbSet<Customer> Customers { get; set; }
@@ -22,6 +23,29 @@ namespace Shopping
         public DbSet<ProductGroup> ProductGroups { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            //https://docs.microsoft.com/en-us/ef/core/modeling/table-splitting - Table Spliting
+            modelBuilder.Entity<Delivery>(p => 
+            {
+                p.ToTable("Orders");
+                p.Property(p => p.Status);
+                p.Property(p => p.Address);
+                p.Property(p => p.CourierId);
+            });
+
+            modelBuilder.Entity<Order>(p =>
+            {
+                p.ToTable("Orders");
+                p.Property(p => p.Status);
+                p.HasMany(p => p.OrderItems).WithOne(p => p.Order).HasForeignKey(p => p.OrderId); 
+                p.HasOne(p => p.OrderDelivery).WithOne().HasForeignKey<Delivery>(p => p.Id); 
+            });
+
+            SeedData(modelBuilder);
+            base.OnModelCreating(modelBuilder);
+        }
+
+        private void SeedData(ModelBuilder modelBuilder)
         {
             var productGroup1 = new ProductGroup { Id = 1, Name = "LapTop" };
             var productGroup2 = new ProductGroup { Id = 2, Name = "Mobile" };
@@ -32,7 +56,7 @@ namespace Shopping
             var stock2 = new Stock { Id = 2, ProductId = product2.Id, Quantity = 10000 };
             var stock3 = new Stock { Id = 3, ProductId = product3.Id, Quantity = 500 };
             var customer = new Customer { Id = 1, Name = "Mohammad azad", Type = CustomerType.Gold };
-            var courier = new Courier { Id = 1, IsAvailable=true };
+            var courier = new Courier { Id = 1, IsAvailable = true };
 
             modelBuilder.Entity<ProductGroup>().HasData(productGroup1);
             modelBuilder.Entity<ProductGroup>().HasData(productGroup2);
@@ -47,7 +71,6 @@ namespace Shopping
 
             modelBuilder.Entity<Customer>().HasData(customer);
             modelBuilder.Entity<Courier>().HasData(courier);
-            base.OnModelCreating(modelBuilder);
         }
     }
 }

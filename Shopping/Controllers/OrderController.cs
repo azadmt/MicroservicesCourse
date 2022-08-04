@@ -14,15 +14,24 @@ namespace Shopping.Controllers
     public class OrderController : Controller
     {
         private readonly IOrderService orderService;
+        private readonly IDeliveryService deliveryService;
 
-        public OrderController(IOrderService orderService)
+        public OrderController(IOrderService orderService,IDeliveryService deliveryService)
         {
             this.orderService = orderService;
+            this.deliveryService = deliveryService;
         }
         [HttpPost]
         public IActionResult CreateOrder(OrderDto orderDto)
         {
             orderService.CreateOrder(orderDto);
+            return Ok();
+        }
+
+        [HttpPost("DeliveryAssigne")]
+        public IActionResult CreateOrder(long orderId)
+        {
+            deliveryService.ScheduleDelivery(orderId);
             return Ok();
         }
     }
