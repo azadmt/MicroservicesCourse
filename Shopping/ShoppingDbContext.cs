@@ -14,7 +14,7 @@ namespace Shopping
 
         }
         public DbSet<Courier> Couriers { get; set; }
-        public DbSet<Delivery> Deliveries { get; set; }
+ 
         public DbSet<Order> Orders { get; set; }
         public DbSet<OrderItem> OrderItems { get; set; }
         public DbSet<Customer> Customers { get; set; }
@@ -24,20 +24,19 @@ namespace Shopping
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {     
-            modelBuilder.Entity<Delivery>(p => 
-            {
-                p.ToTable("Deliveries");
-                p.Property(p => p.Status);
-                p.Property(p => p.Address);
-                p.Property(p => p.CourierId);
-            });
+            //modelBuilder.Entity<Delivery>(p => 
+            //{
+            //    p.ToTable("Deliveries");
+            //    p.Property(p => p.Status);
+            //    p.Property(p => p.Address);
+            //    p.Property(p => p.CourierId);
+            //});
 
             modelBuilder.Entity<Order>(p =>
             {
                 p.ToTable("Orders");
                 p.Property(p => p.Status);
                 p.HasMany(p => p.OrderItems).WithOne(p => p.Order).HasForeignKey(p => p.OrderId); 
-                p.HasOne(p => p.OrderDelivery).WithOne().HasForeignKey<Delivery>(p => p.Id); 
             });
 
             SeedData(modelBuilder);

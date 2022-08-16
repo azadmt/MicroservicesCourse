@@ -36,7 +36,7 @@ namespace Shopping.Service
                 order.AddOrderItem(orderItem);
             }
             //use from delivery service
-            deliveryService.ScheduleDelivery(order.Id);
+            deliveryService.ScheduleDelivery(order.Id,orderDto.Address);
             shoppingDbContext.Orders.Add(order);
             shoppingDbContext.SaveChanges();
 

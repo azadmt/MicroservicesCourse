@@ -1,3 +1,4 @@
+using DeliveryManagement.Service;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -7,13 +8,12 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
-using Shopping.Service;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Shopping
+namespace DeliveryManagement
 {
     public class Startup
     {
@@ -27,15 +27,13 @@ namespace Shopping
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<ShoppingDbContext>(opt=>opt.UseSqlServer("name=ConnectionStrings:DefaultConnection"));
+            services.AddDbContext<DeliveryManagementDbContext>(opt => opt.UseSqlServer("name=ConnectionStrings:DefaultConnection"));
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Shopping", Version = "v1" });
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "DeliveryManagement", Version = "v1" });
             });
-            services.AddScoped<IOrderService, OrderService>();
             services.AddScoped<IDeliveryService, DeliveryService>();
-            services.AddHttpClient<DeliveryService>();//TODO : Get from Config
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -45,7 +43,7 @@ namespace Shopping
             {
                 app.UseDeveloperExceptionPage();
                 app.UseSwagger();
-                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Shopping v1"));
+                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "DeliveryManagement v1"));
             }
 
             app.UseRouting();

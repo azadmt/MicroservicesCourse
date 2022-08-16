@@ -2,7 +2,6 @@
 {
     public interface IDeliveryService
     {
-        void ScheduleDelivery(long id);
-        void Pickup(long id);
+        void ScheduleDelivery(long id,string address);
     }
 }

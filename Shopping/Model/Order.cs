@@ -11,7 +11,6 @@ namespace Shopping.Model
         public virtual Customer Customer { get; set; }
         public DateTime CreateDate { get; set; }
         public OrderStatus Status { get; set; }
-        public Delivery OrderDelivery { get; set; }
         public List<OrderItem> OrderItems { get; set; } = new List<OrderItem>();
 
         public void AddOrderItem(OrderItem item)

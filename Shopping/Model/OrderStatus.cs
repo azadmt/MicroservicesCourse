@@ -11,11 +11,5 @@
         Cancelled
     }
 
-    public enum DeliveryStatus
-    {
-         Assigned,
-        PickedUp,
-        Delivered,
-        Cancelled
-    }
+
 }
