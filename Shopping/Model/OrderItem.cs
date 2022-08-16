@@ -1,7 +1,10 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Shopping.Model
 {
+    [Table("OrderItems", Schema = "Shopping")]
+
     public class OrderItem : EntityBase
     {
         public long OrderId { get; set; }

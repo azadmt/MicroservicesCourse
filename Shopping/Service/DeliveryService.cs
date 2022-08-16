@@ -16,7 +16,7 @@ namespace Shopping.Service
         {
             var delivery = shoppingDbContext.Deliveries.First(p => p.Id == id);
             var order = shoppingDbContext.Orders.First(p => p.Id == id);
-            delivery.Status = OrderStatus.PickedUp;
+            delivery.Status = DeliveryStatus.PickedUp;
             shoppingDbContext.Deliveries.Update(delivery);
             shoppingDbContext.SaveChanges();
         }
@@ -27,7 +27,7 @@ namespace Shopping.Service
             var delivery = shoppingDbContext.Deliveries.First(p => p.Id==id);
             var order = shoppingDbContext.Orders.First(p => p.Id == id);
             delivery.CourierId = courier.Id;
-            delivery.Status = OrderStatus.Assigned;
+            delivery.Status = DeliveryStatus.Assigned;
             order.Status = OrderStatus.StockConfirmed;
             shoppingDbContext.Deliveries.Update(delivery);
             shoppingDbContext.Orders.Update(order);

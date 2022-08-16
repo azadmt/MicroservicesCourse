@@ -3,7 +3,6 @@
     public enum OrderStatus
     {
         Submitted,
-        AwaitingValidation,
         StockConfirmed,
         Paid,
         Assigned,
@@ -12,5 +11,11 @@
         Cancelled
     }
 
-
+    public enum DeliveryStatus
+    {
+         Assigned,
+        PickedUp,
+        Delivered,
+        Cancelled
+    }
 }

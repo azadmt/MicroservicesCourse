@@ -23,11 +23,10 @@ namespace Shopping
         public DbSet<ProductGroup> ProductGroups { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
-        {
-            //https://docs.microsoft.com/en-us/ef/core/modeling/table-splitting - Table Spliting
+        {     
             modelBuilder.Entity<Delivery>(p => 
             {
-                p.ToTable("Orders");
+                p.ToTable("Deliveries");
                 p.Property(p => p.Status);
                 p.Property(p => p.Address);
                 p.Property(p => p.CourierId);
