@@ -7,13 +7,15 @@ using System.Threading.Tasks;
 
 namespace Shopping.Service
 {
-    public class OrderService:IOrderService
+    public class OrderService : IOrderService
     {
         private readonly ShoppingDbContext shoppingDbContext;
+        private readonly IDeliveryService deliveryService;
 
-        public OrderService(ShoppingDbContext shoppingDbContext)
+        public OrderService(ShoppingDbContext shoppingDbContext, IDeliveryService deliveryService)
         {
             this.shoppingDbContext = shoppingDbContext;
+            this.deliveryService = deliveryService;
         }
         public void CreateOrder(OrderDto orderDto)
         {
@@ -30,16 +32,16 @@ namespace Shopping.Service
                 {
                     throw new Exception("Quantity is not enough!!!");
                 }
-                stock.Quantity -= item.Unit;           
+                stock.Quantity -= item.Unit;
                 order.AddOrderItem(orderItem);
             }
+            deliveryService.ScheduleDelivery(order.Id);
+            shoppingDbContext.Orders.Add(order);
+            shoppingDbContext.SaveChanges();
 
-                    shoppingDbContext.Orders.Add(order);
-                    shoppingDbContext.SaveChanges();          
-               
-            }
         }
-
     }
+
+}
 
 
