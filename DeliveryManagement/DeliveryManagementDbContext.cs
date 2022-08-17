@@ -15,5 +15,17 @@ namespace DeliveryManagement
         }
         public DbSet<Delivery> Deliveries { get; set; }
         public DbSet<Courier> Couriers { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            SeedData(modelBuilder);
+            base.OnModelCreating(modelBuilder);
+        }
+
+        private void SeedData(ModelBuilder modelBuilder)
+        {
+            var courier = new Courier { Id = 1, IsAvailable = true };
+            modelBuilder.Entity<Courier>().HasData(courier);
+        }
     }
 }

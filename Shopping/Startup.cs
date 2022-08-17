@@ -39,8 +39,10 @@ namespace Shopping
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env,IServiceProvider serviceProvider)
         {
+            //prepare database
+            serviceProvider.GetService<ShoppingDbContext>().Database.EnsureCreated();
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();

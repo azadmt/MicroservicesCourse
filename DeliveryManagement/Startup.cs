@@ -27,7 +27,7 @@ namespace DeliveryManagement
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<DeliveryManagementDbContext>(opt => opt.UseSqlServer("name=ConnectionStrings:DefaultConnection"));
+            services.AddDbContext<DeliveryManagementDbContext>(opt => opt.UseInMemoryDatabase("DeliveryManagementDb"));
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
@@ -37,8 +37,9 @@ namespace DeliveryManagement
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env,IServiceProvider serviceProvider)
         {
+            serviceProvider.GetService<DeliveryManagementDbContext>().Database.EnsureCreated();
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();

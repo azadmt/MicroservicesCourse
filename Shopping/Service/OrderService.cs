@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Transactions;
 
 namespace Shopping.Service
 {
@@ -19,6 +20,7 @@ namespace Shopping.Service
         }
         public void CreateOrder(OrderDto orderDto)
         {
+            using var trx = new TransactionScope(TransactionScopeOption.Required, new TransactionOptions() { IsolationLevel = IsolationLevel.ReadCommitted });
             var productsId = orderDto.OrderItems.Select(p => p.ProductId).ToList();
             var products = shoppingDbContext.Products.Where(p => productsId.Contains(p.Id)).ToList();
             var stocks = shoppingDbContext.Stocks.Where(p => productsId.Contains(p.ProductId)).ToList();
@@ -35,11 +37,11 @@ namespace Shopping.Service
                 stock.Quantity -= item.Unit;
                 order.AddOrderItem(orderItem);
             }
-            //use from delivery service
-            deliveryService.ScheduleDelivery(order.Id,orderDto.Address);
-            shoppingDbContext.Orders.Add(order);
-            shoppingDbContext.SaveChanges();
-
+                shoppingDbContext.Orders.Add(order);
+                shoppingDbContext.SaveChanges();
+                //use from delivery service
+                deliveryService.ScheduleDelivery(order.Id, orderDto.Address);
+                trx.Complete();
         }
     }
 
