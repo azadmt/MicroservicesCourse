@@ -1,4 +1,7 @@
+using Contract;
+using DeliveryManagement.Integration;
 using DeliveryManagement.Service;
+using MassTransit;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -29,6 +32,21 @@ namespace DeliveryManagement
         {
             services.AddDbContext<DeliveryManagementDbContext>(opt => opt.UseInMemoryDatabase("DeliveryManagementDb"));
             services.AddControllers();
+
+            services.AddMassTransit(x =>
+            {
+                //// TODO: Auto Register Consumers
+                x.AddConsumer<OrderPlacedEventHandler>();
+                // x.UsingRabbitMq();
+                x.UsingRabbitMq((context, cfg) =>
+                {
+                    cfg.ReceiveEndpoint(nameof(OrderPlacedEvent), e =>
+                    {
+                        e.ConfigureConsumer<OrderPlacedEventHandler>(context);
+                    });
+                });
+            });
+            services.AddMassTransitHostedService();
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "DeliveryManagement", Version = "v1" });
