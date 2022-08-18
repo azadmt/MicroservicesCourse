@@ -7,7 +7,12 @@ namespace Contract
 {
     public class OrderPlacedEvent
     {
-        public long OrderId { get; set; }
-        public string Address { get; set; }
+        public OrderPlacedEvent(long orderId,string address)
+        {
+            OrderId = orderId;
+            Address = address;
+        }
+        public long OrderId { get; private set; }
+        public string Address { get; private set; }
     }
 }
