@@ -39,7 +39,7 @@ namespace Consumer_ConsoleApp
             {
                 var messageBody = eventArgs.Body.ToArray();
                 var message = CustomMessage.FromBytes(messageBody);
-                Console.WriteLine($"Message Reive -Code = {message.Code} -- Content={message.Content} ");
+                Console.WriteLine($"Message Recive -Code = {message.Code} -- Content={message.Content} ");
 
                 channel.BasicAck(eventArgs.DeliveryTag, multiple: false);
             };
