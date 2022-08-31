@@ -11,14 +11,13 @@ namespace InventoryManagement.Service
     public class StockService : IStockService
     {
         private readonly InventoryDbContext dbContext;
-        private readonly IBusControl busControl;
 
-        public StockService(InventoryDbContext dbContext, IBusControl busControl)
+        public StockService(InventoryDbContext dbContext)
         {
             this.dbContext = dbContext;
-            this.busControl = busControl;
+          
         }
-        public async Task UpdateStock(UpdateStockQuantity updateStockQuantity)
+        public async Task AdjustStockQuantity(AdjustStockQuantity updateStockQuantity)
         {
             var s = await dbContext.Stocks.ToListAsync();
             var stock = await dbContext.Stocks.SingleAsync(p => p.ProductId == updateStockQuantity.ProductId);
@@ -33,6 +32,6 @@ namespace InventoryManagement.Service
 
     public interface IStockService
     {
-        Task UpdateStock(UpdateStockQuantity updateStockQuantity);
+        Task AdjustStockQuantity(AdjustStockQuantity updateStockQuantity);
     }
 }

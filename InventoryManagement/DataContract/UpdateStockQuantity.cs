@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace InventoryManagement.DataContract
 {
-    public class UpdateStockQuantity
+    public class AdjustStockQuantity
     {
         public long ProductId { get; set; }
         public int Quantity{ get; set; }

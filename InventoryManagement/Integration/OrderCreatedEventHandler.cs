@@ -22,7 +22,7 @@ namespace InventoryManagement.Integration
             {
                 try
                 {
-                    await stockService.UpdateStock(new DataContract.UpdateStockQuantity { ProductId = item.Key, Quantity = item.Value });
+                    await stockService.AdjustStockQuantity(new DataContract.AdjustStockQuantity { ProductId = item.Key, Quantity = item.Value });
                 }
                 catch (Exception)
                 {
