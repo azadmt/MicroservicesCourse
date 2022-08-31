@@ -2,11 +2,8 @@
 {
     public enum OrderStatus
     {
-        Submitted,
-        StockConfirmed,
-        Paid,
-        Assigned,
-        PickedUp,
+        ApprovalPending,
+        Approved,
         Delivered,
         Cancelled
     }

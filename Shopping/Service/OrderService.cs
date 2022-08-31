@@ -13,40 +13,40 @@ namespace Shopping.Service
     public class OrderService : IOrderService
     {
         private readonly ShoppingDbContext shoppingDbContext;
-        private readonly IDeliveryService deliveryService;
         private readonly IBusControl busControl;
 
-        public OrderService(ShoppingDbContext shoppingDbContext, IDeliveryService deliveryService,IBusControl busControl)
+        public OrderService(ShoppingDbContext shoppingDbContext, IBusControl busControl)
         {
             this.shoppingDbContext = shoppingDbContext;
-            this.deliveryService = deliveryService;
             this.busControl = busControl;
         }
+
+        public void ApproveOrder(long ordrId)
+        {
+            throw new NotImplementedException();
+        }
+
         public void CreateOrder(OrderDto orderDto)
         {
-            using var trx = new TransactionScope(TransactionScopeOption.Required, new TransactionOptions() { IsolationLevel = IsolationLevel.ReadCommitted });
             var productsId = orderDto.OrderItems.Select(p => p.ProductId).ToList();
             var products = shoppingDbContext.Products.Where(p => productsId.Contains(p.Id)).ToList();
-            var stocks = shoppingDbContext.Stocks.Where(p => productsId.Contains(p.ProductId)).ToList();
-            var order = new Order { CreateDate = DateTime.Now, CustomerId = orderDto.CustomerId };
+            var order = new Order { CreateDate = DateTime.Now, CustomerId = orderDto.CustomerId, Status = OrderStatus.ApprovalPending };
             foreach (var item in orderDto.OrderItems)
             {
                 var product = products.First(p => p.Id == item.ProductId);
                 var orderItem = new OrderItem { ProductId = item.ProductId, Unit = item.Unit, Price = item.Unit * product.Price };
-                var stock = stocks.First(p => p.ProductId == item.ProductId);
-                if (stock.Quantity < item.Unit)
-                {
-                    throw new Exception("Quantity is not enough!!!");
-                }
-                stock.Quantity -= item.Unit;
                 order.AddOrderItem(orderItem);
             }
-                shoppingDbContext.Orders.Add(order);
-                shoppingDbContext.SaveChanges();
-
+            shoppingDbContext.Orders.Add(order);
+            shoppingDbContext.SaveChanges();
+            //TODO: Implement Outbox Pattern
             //Async Integration 
-            busControl.Publish(new OrderPlacedEvent(order.Id, orderDto.Address));
-            trx.Complete();
+            busControl.Publish(new OrderCreatedEvent(order.Id, order.OrderItems.ToDictionary(p => p.ProductId, p => p.Unit)));
+        }
+
+        public void RejectOrder(long ordrId)
+        {
+            throw new NotImplementedException();
         }
     }
 

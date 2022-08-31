@@ -25,7 +25,9 @@ namespace DeliveryManagement
         private void SeedData(ModelBuilder modelBuilder)
         {
             var courier = new Courier { Id = 1, IsAvailable = true };
+            var courier2 = new Courier { Id = 2, IsAvailable = true };
             modelBuilder.Entity<Courier>().HasData(courier);
+            modelBuilder.Entity<Courier>().HasData(courier2);
         }
     }
 }

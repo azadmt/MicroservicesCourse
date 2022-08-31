@@ -15,4 +15,20 @@ namespace Contract
         public long OrderId { get; private set; }
         public string Address { get; private set; }
     }
+
+    public class OrderCreatedEvent
+    {
+        public OrderCreatedEvent(long orderId, Dictionary<long, int> orderItems)
+        {
+            OrderItems = orderItems;
+            OrderId = orderId;
+        }
+
+        // TODO: Refactor to better data structure !!!
+        public Dictionary<long, int> OrderItems { get; private set; }
+        public long OrderId { get; private set; }
+
+    }
+
+  
 }
