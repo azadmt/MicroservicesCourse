@@ -1,4 +1,5 @@
 using Contract;
+using CronQuery.Mvc.DependencyInjection;
 using MassTransit;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -59,6 +60,10 @@ namespace Shopping
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Shopping", Version = "v1" });
             });
             services.AddScoped<IOrderService, OrderService>();
+
+            services.AddCronQuery(Configuration.GetSection("CronQuery"));
+            
+            services.AddScoped<OutboxPublisher>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

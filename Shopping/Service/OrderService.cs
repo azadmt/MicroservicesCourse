@@ -1,5 +1,6 @@
 ﻿using Contract;
 using MassTransit;
+using Newtonsoft.Json;
 using Shopping.DataContract;
 using Shopping.Model;
 using System;
@@ -38,10 +39,13 @@ namespace Shopping.Service
                 order.AddOrderItem(orderItem);
             }
             shoppingDbContext.Orders.Add(order);
+            // Outbox Pattern
+            shoppingDbContext.OutboxEvents.Add(new OutboxEvent
+            {
+                Payload = JsonConvert.SerializeObject(new OrderCreatedEvent(order.Id, order.OrderItems.ToDictionary(p => p.ProductId, p => p.Unit))),
+                IsSynced = false
+            });
             shoppingDbContext.SaveChanges();
-            //TODO: Implement Outbox Pattern
-            //Async Integration 
-            busControl.Publish(new OrderCreatedEvent(order.Id, order.OrderItems.ToDictionary(p => p.ProductId, p => p.Unit)));
         }
 
         public void RejectOrder(long ordrId)

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace Shopping.Model
 {
@@ -18,6 +19,16 @@ namespace Shopping.Model
             item.Order = this;
             OrderItems.Add(item);
         }
+    }
+
+    public class OutboxEvent
+    {
+        [Key]
+        public Guid Id { get; set; } = new();
+        public string Payload { get; set; }
+        public DateTime CreateDate { get; set; } = DateTime.Now;
+        public DateTime? SyncDate { get; set; } 
+        public bool IsSynced { get; set; }
     }
 
 }

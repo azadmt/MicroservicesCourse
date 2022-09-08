@@ -14,6 +14,7 @@ namespace Shopping
 
         }
 
+        public DbSet<OutboxEvent> OutboxEvents { get; set; }
         public DbSet<Order> Orders { get; set; }
         public DbSet<OrderItem> OrderItems { get; set; }
         public DbSet<Customer> Customers { get; set; }
