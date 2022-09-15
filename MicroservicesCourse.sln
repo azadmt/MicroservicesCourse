@@ -1,18 +1,20 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.30804.86
+# Visual Studio Version 17
+VisualStudioVersion = 17.3.32804.467
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shopping", "Shopping\Shopping.csproj", "{E6C423C0-78A2-471A-B118-BEA15B74C20A}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DeliveryManagement", "DeliveryManagement\DeliveryManagement.csproj", "{C135E877-1CE4-4E95-A5F1-B54B3BB73C5A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InventoryManagement", "InventoryManagement\InventoryManagement.csproj", "{8FC92681-292C-4BC5-9D99-3904D647AE29}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InventoryManagement", "InventoryManagement\InventoryManagement.csproj", "{8FC92681-292C-4BC5-9D99-3904D647AE29}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{138CD6CB-020C-4F5F-8BFF-F435CB259F22}"
 	ProjectSection(SolutionItems) = preProject
 		Readme.txt = Readme.txt
 	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shopping_ApiGateway", "Shopping_ApiGateway\Shopping_ApiGateway.csproj", "{07ACAF78-EF46-4CB9-9B62-C975CDF6CA44}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -32,6 +34,10 @@ Global
 		{8FC92681-292C-4BC5-9D99-3904D647AE29}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8FC92681-292C-4BC5-9D99-3904D647AE29}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8FC92681-292C-4BC5-9D99-3904D647AE29}.Release|Any CPU.Build.0 = Release|Any CPU
+		{07ACAF78-EF46-4CB9-9B62-C975CDF6CA44}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{07ACAF78-EF46-4CB9-9B62-C975CDF6CA44}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{07ACAF78-EF46-4CB9-9B62-C975CDF6CA44}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{07ACAF78-EF46-4CB9-9B62-C975CDF6CA44}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
