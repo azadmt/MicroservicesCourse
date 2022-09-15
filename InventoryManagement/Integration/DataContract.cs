@@ -16,6 +16,8 @@ namespace Contract
         // TODO: Refactor to better data structure !!!
         public Dictionary<long, int> OrderItems { get; private set; }
         public long OrderId { get; private set; }
+        public Guid CorrelationId { get;  set; }
+        
 
     }
 

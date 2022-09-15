@@ -2,6 +2,7 @@ using Contract;
 using InventoryManagement.Integration;
 using InventoryManagement.Service;
 using MassTransit;
+using MassTransit.Context;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -33,14 +34,15 @@ namespace InventoryManagement
 
             services.AddDbContext<InventoryDbContext>(opt => opt.UseInMemoryDatabase("InventoryManagementDb"));
             services.AddControllers();
-
+            MessageCorrelation.UseCorrelationId<OrderCreatedEvent>(x => new Guid());
             services.AddMassTransit(x =>
-            {
+            {                
                 //// TODO: Auto Register Consumers
                 x.AddConsumer<OrderCreatedEventHandler>();
                 // x.UsingRabbitMq();
                 x.UsingRabbitMq((context, cfg) =>
                 {
+                 
                     cfg.ReceiveEndpoint(nameof(OrderCreatedEvent), e =>
                     {
                         e.ConfigureConsumer<OrderCreatedEventHandler>(context);
