@@ -2,7 +2,7 @@
 
 namespace Shopping_ApiGateway.Controllers
 {
-    public class DeliveryController : Controller
+    public class DeliveryController : ControllerBase
     {
         public IActionResult Index()
         {

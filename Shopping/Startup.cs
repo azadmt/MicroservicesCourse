@@ -9,6 +9,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
+using RestSharp;
 using Shopping.Integration;
 using Shopping.Service;
 using System;
@@ -30,8 +31,8 @@ namespace Shopping
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-          //  services.AddDbContext<ShoppingDbContext>(opt=>opt.UseSqlServer("name=ConnectionStrings:DefaultConnection"));
-            services.AddDbContext<ShoppingDbContext>(opt=>opt.UseInMemoryDatabase("ShoppingDb"));
+            //  services.AddDbContext<ShoppingDbContext>(opt=>opt.UseSqlServer("name=ConnectionStrings:DefaultConnection"));
+            services.AddDbContext<ShoppingDbContext>(opt => opt.UseInMemoryDatabase("ShoppingDb"));
             services.AddControllers();
             services.AddMassTransit(x =>
             {
@@ -59,10 +60,11 @@ namespace Shopping
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Shopping", Version = "v1" });
             });
             services.AddScoped<IOrderService, OrderService>();
+            RegisterService();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env,IServiceProvider serviceProvider)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IServiceProvider serviceProvider)
         {
             //prepare database
             serviceProvider.GetService<ShoppingDbContext>().Database.EnsureCreated();
@@ -81,6 +83,25 @@ namespace Shopping
             {
                 endpoints.MapControllers();
             });
+        }
+
+        private void RegisterService()
+        {
+            try
+            {
+                RestClient client = new RestClient();
+                var request = new RestRequest(new Uri($"http://localhost:18224/ServiceManagement"), Method.Post);
+
+                request.AddParameter("serviceName", "Shopping");//read fro config
+                request.AddParameter("baseAddress", "http://localhost:31762");
+                var response = client.Post(request);
+            }
+            catch (Exception ex)
+            {
+
+                throw;
+            }
+
         }
     }
 }

@@ -14,11 +14,11 @@ namespace Shopping_ApiGateway.Controllers
     {
 
         private readonly ILogger<OrderController> _logger;
-      //  private readonly RestClient client;
+       private readonly RestClient client;
 
         public OrderController(RestClient client)
         {
-           // this.client = client;
+            this.client = client;
         }
 
         [HttpPost]
@@ -26,26 +26,9 @@ namespace Shopping_ApiGateway.Controllers
         {
             var req = new RestRequest(new Uri("http://localhost:31762/Order"), Method.Post);
             req.AddJsonBody<OrderDto>(orderDto);
-           // client.Post(req);
+            client.Post(req);
             return Ok();
         }
 
-    }
-
-    public class OrderDto
-    {
-        public long CustomerId { get; set; }
-        public string Address { get; set; }
-        public DateTime CreateDate { get; set; }
-
-        public List<OrderItemDto> OrderItems { get; set; }
-
-    }
-
-    public class OrderItemDto
-    {
-        public long ProductId { get; set; }
-
-        public int Unit { get; set; }
     }
 }

@@ -2,7 +2,7 @@
 
 namespace Shopping_ApiGateway.Controllers
 {
-    public class InventoryController : Controller
+    public class InventoryController : ControllerBase
     {
         public IActionResult Index()
         {
