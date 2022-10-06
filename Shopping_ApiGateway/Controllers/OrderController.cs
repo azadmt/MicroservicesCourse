@@ -13,22 +13,27 @@ namespace Shopping_ApiGateway.Controllers
     public class OrderController : ControllerBase
     {
 
-        private readonly ILogger<OrderController> _logger;
-       private readonly RestClient client;
+        private readonly ILogger<OrderController> _logger;        
 
-        public OrderController(RestClient client)
+        public OrderController(RestClient client):base(client)
         {
-            this.client = client;
+          
         }
 
         [HttpPost]
         public IActionResult CreateOrder(OrderDto orderDto)
         {
-            var req = new RestRequest(new Uri("http://localhost:31762/Order"), Method.Post);
-            req.AddJsonBody<OrderDto>(orderDto);
-            client.Post(req);
+            var req = new RestRequest(new Uri($"{GetApiAddress()}"), Method.Post);
+        
+            req.AddJsonBody(orderDto);
+            RestClient.Post(req);
             return Ok();
         }
 
+        protected string GetApiAddress()
+        {
+            var address = GetServiceEndponit("Shopping");
+            return $"{address}/Order";
+        }
     }
 }

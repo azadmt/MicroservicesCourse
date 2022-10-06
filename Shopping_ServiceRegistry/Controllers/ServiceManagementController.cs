@@ -27,7 +27,7 @@ namespace Shopping_ServiceRegistry.Controllers
                 return NotFound(serviceName);
 
             service.LastUpdate = DateTime.Now;
-            return Ok(new { ServiceAddress = service.BaseAddress });
+            return Ok(service.BaseAddress);
         }
 
         [HttpPost]
