@@ -22,23 +22,27 @@ namespace Shopping_ServiceRegistry.Controllers
         [HttpGet]
         public IActionResult Get(string serviceName)
         {
-            var service = services.Where(p => p.Name == serviceName).OrderBy(p => p.LastRequestTime).FirstOrDefault();
+            var service = services.Where(p => p.Name == serviceName).OrderBy(p => p.LastUpdate).FirstOrDefault();
             if (service is null)
                 return NotFound(serviceName);
 
-            service.LastRequestTime = DateTime.Now;
+            service.LastUpdate = DateTime.Now;
             return Ok(new { ServiceAddress = service.BaseAddress });
         }
 
         [HttpPost]
-        public IActionResult Register(string serviceName, string baseAddress)
+        public IActionResult Register(RegisterServiceModel registerServiceModel)
         {
-            services.Add(new ServieModel
+            if (!services.Any(
+                p => p.Name == registerServiceModel.ServiceName
+            && p.BaseAddress == registerServiceModel.BaseAddress))
             {
-                Name = serviceName,
-                BaseAddress = baseAddress
-            });
-
+                services.Add(new ServieModel
+                {
+                    Name = registerServiceModel.ServiceName,
+                    BaseAddress = registerServiceModel.BaseAddress
+                });
+            }
             return Ok();
         }
     }

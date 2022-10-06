@@ -6,6 +6,6 @@ namespace Shopping_ServiceRegistry.Controllers
     {
         public string Name { get; set; }
         public string BaseAddress { get; set; }
-        public DateTime? LastRequestTime { get; set; }
+        public DateTime? LastUpdate { get; set; }
     }
 }

@@ -91,14 +91,14 @@ namespace Shopping
             {
                 RestClient client = new RestClient();
                 var request = new RestRequest(new Uri($"http://localhost:18224/ServiceManagement"), Method.Post);
-
-                request.AddParameter("serviceName", "Shopping");//read fro config
-                request.AddParameter("baseAddress", "http://localhost:31762");
+                request.AddBody(new { ServiceName = "Shopping", BaseAddress = "http://localhost:3176" });
+                //request.AddParameter("serviceName", "Shopping");//read fro config
+                //request.AddParameter("baseAddress", "http://localhost:31762");
                 var response = client.Post(request);
             }
             catch (Exception ex)
             {
-
+                
                 throw;
             }
 
