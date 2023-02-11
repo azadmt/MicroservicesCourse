@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Shopping.DataContract;
 using Shopping.Service;
 using System;
@@ -20,6 +21,7 @@ namespace Shopping.Controllers
             this.orderService = orderService;
         }
 
+        [Authorize(Roles ="Admin")]
         [HttpGet]
         public IActionResult Get()
         {

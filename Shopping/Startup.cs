@@ -75,19 +75,7 @@ namespace Shopping
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Shopping v1"));
             }
 
-            app.Use(async (context, next) =>
-            {
-                // string authorizationToken;
-                context.Request.Headers.TryGetValue("token", out var authorizationToken);
-                // Do work that can write to the Response.
-                if (authorizationToken.Any())
-                {
-                    var token = authorizationToken.First();
-                    // check token with Identity Server
-                }
-                await next.Invoke();
-                // Do logging or other work that doesn't write to the Response.
-            });
+   
             app.UseRouting();
 
             app.UseAuthorization();
