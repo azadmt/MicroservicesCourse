@@ -1,9 +1,10 @@
 ﻿using Shopping.DataContract;
+using System.Threading.Tasks;
 
 namespace Shopping.Service
 {
     public interface IOrderService
     {
-        void CreateOrder(OrderDto orderDto);
+        Task CreateOrder(OrderDto orderDto);
     }
 }

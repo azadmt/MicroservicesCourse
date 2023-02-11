@@ -27,9 +27,9 @@ namespace Shopping.Controllers
             return Ok();
         }
         [HttpPost]
-        public IActionResult CreateOrder(OrderDto orderDto)
+        public async Task<IActionResult> CreateOrder(OrderDto orderDto)
         {
-            orderService.CreateOrder(orderDto);
+            await orderService.CreateOrder(orderDto);
             return Ok();
         }
     }

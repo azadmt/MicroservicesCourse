@@ -1,7 +1,9 @@
-﻿namespace Shopping.Service
+﻿using System.Threading.Tasks;
+
+namespace Shopping.Service
 {
     public interface IDeliveryService
     {
-        void ScheduleDelivery(long id,string address);
+        Task ScheduleDelivery(long id,string address);
     }
 }

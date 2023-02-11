@@ -4,6 +4,7 @@ using System;
 using System.Linq;
 using System.Net.Http;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace Shopping.Service
 {
@@ -17,10 +18,10 @@ namespace Shopping.Service
         }
 
 
-        public void ScheduleDelivery(long id, string address)
+        public async Task ScheduleDelivery(long id, string address)
         {
             var content = new StringContent(JsonConvert.SerializeObject(new ScheduleDeliveryDto { Address = address, OrderId = id }), Encoding.UTF8, "application/json");
-            var response = httpClient.PostAsync("https://localhost:44309/Delivery", content).Result;
+            var response = await httpClient.PostAsync("https://localhost:44309/Delivery", content);
             if (!response.IsSuccessStatusCode)
                 throw new Exception("ScheduleDelivery Exception");
         }

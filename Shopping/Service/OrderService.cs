@@ -11,14 +11,19 @@ namespace Shopping.Service
     public class OrderService : IOrderService
     {
         private readonly ShoppingDbContext shoppingDbContext;
+        private readonly IInventoryService inventoryService;
         private readonly IDeliveryService deliveryService;
 
-        public OrderService(ShoppingDbContext shoppingDbContext, IDeliveryService deliveryService)
+        public OrderService(
+            ShoppingDbContext shoppingDbContext,
+            IInventoryService inventoryService, 
+            IDeliveryService deliveryService)
         {
+            this.inventoryService = inventoryService;
             this.shoppingDbContext = shoppingDbContext;
             this.deliveryService = deliveryService;
         }
-        public void CreateOrder(OrderDto orderDto)
+        public async Task CreateOrder(OrderDto orderDto)
         {
             using var trx = new TransactionScope(TransactionScopeOption.Required, new TransactionOptions() { IsolationLevel = IsolationLevel.ReadCommitted });
             var productsId = orderDto.OrderItems.Select(p => p.ProductId).ToList();
@@ -29,19 +34,14 @@ namespace Shopping.Service
             {
                 var product = products.First(p => p.Id == item.ProductId);
                 var orderItem = new OrderItem { ProductId = item.ProductId, Unit = item.Unit, Price = item.Unit * product.Price };
-                var stock = stocks.First(p => p.ProductId == item.ProductId);
-                if (stock.Quantity < item.Unit)
-                {
-                    throw new Exception("Quantity is not enough!!!");
-                }
-                stock.Quantity -= item.Unit;
+                await inventoryService.AdjustStockQuantity(item.ProductId, item.Unit);
                 order.AddOrderItem(orderItem);
             }
                 shoppingDbContext.Orders.Add(order);
                 shoppingDbContext.SaveChanges();
                 //use from delivery service
-                deliveryService.ScheduleDelivery(order.Id, orderDto.Address);
-                trx.Complete();
+              await  deliveryService.ScheduleDelivery(order.Id, orderDto.Address);
+
         }
     }
 
