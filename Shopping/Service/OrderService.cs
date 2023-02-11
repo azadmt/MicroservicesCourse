@@ -28,13 +28,12 @@ namespace Shopping.Service
             using var trx = new TransactionScope(TransactionScopeOption.Required, new TransactionOptions() { IsolationLevel = IsolationLevel.ReadCommitted });
             var productsId = orderDto.OrderItems.Select(p => p.ProductId).ToList();
             var products = shoppingDbContext.Products.Where(p => productsId.Contains(p.Id)).ToList();
-            var stocks = shoppingDbContext.Stocks.Where(p => productsId.Contains(p.ProductId)).ToList();
             var order = new Order { CreateDate = DateTime.Now, CustomerId = orderDto.CustomerId };
             foreach (var item in orderDto.OrderItems)
             {
                 var product = products.First(p => p.Id == item.ProductId);
                 var orderItem = new OrderItem { ProductId = item.ProductId, Unit = item.Unit, Price = item.Unit * product.Price };
-                await inventoryService.AdjustStockQuantity(item.ProductId, item.Unit);
+                await inventoryService.AdjustStockQuantity(item.ProductId, item.Unit);//!! batch adjustment 
                 order.AddOrderItem(orderItem);
             }
                 shoppingDbContext.Orders.Add(order);
