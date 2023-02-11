@@ -27,7 +27,8 @@ namespace Shopping
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<ShoppingDbContext>(opt=>opt.UseSqlServer("name=ConnectionStrings:DefaultConnection"));
+           // services.AddDbContext<ShoppingDbContext>(opt=>opt.UseSqlServer("name=ConnectionStrings:DefaultConnection"));
+            services.AddDbContext<ShoppingDbContext>(opt=>opt.UseInMemoryDatabase(databaseName:"ApplicationDbContext"));
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
@@ -37,8 +38,9 @@ namespace Shopping
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IServiceProvider serviceProvider)
         {
+            serviceProvider.GetService<ShoppingDbContext>().Database.EnsureCreated();
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
