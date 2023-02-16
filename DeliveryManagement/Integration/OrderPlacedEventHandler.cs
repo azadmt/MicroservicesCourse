@@ -9,9 +9,10 @@ namespace DeliveryManagement.Integration
 {
     public class OrderPlacedEventHandler : IConsumer<OrderPlacedEvent>
     {
-        public Task Consume(ConsumeContext<OrderPlacedEvent> context)
+        public async Task Consume(ConsumeContext<OrderPlacedEvent> context)
         {
-            throw new NotImplementedException();
+           //TODO
+           
         }
     }
 }

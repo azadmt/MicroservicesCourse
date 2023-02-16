@@ -14,9 +14,9 @@ namespace Shopping.Integration
         {
             this.orderService = orderService;
         }
-        public Task Consume(ConsumeContext<StockAdjusmentRejectedEvent> context)
+        public async Task Consume(ConsumeContext<StockAdjusmentRejectedEvent> context)
         {
-            throw new NotImplementedException();
+            //TODO
         }
     }
 }
